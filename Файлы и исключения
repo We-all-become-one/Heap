@@ -1,0 +1,14 @@
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        
+        while (reader.ready()) {
+            String fileName = reader.readLine();
+            try (FileInputStream reader1 = new FileInputStream(fileName)) {
+
+            } catch (FileNotFoundException e) {
+                System.out.println(fileName);
+            }
+        }
+    }
+}
