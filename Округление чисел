@@ -1,0 +1,29 @@
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        try (BufferedReader reader1 = new BufferedReader(new FileReader(reader.readLine()));
+             BufferedWriter writer = new BufferedWriter(new FileWriter(reader.readLine())))
+        {
+            String string = null;
+            while (reader1.ready()) {
+                string = reader1.readLine();
+            }
+            int nextId = string.indexOf(" ");
+
+            for (int i = 0; i < string.length(); ) {
+                if (nextId == -1) {
+                    Double d = Double.parseDouble(string.substring(i));
+                    String s = String.valueOf(Math.round(d));
+                    writer.write(" " + s);
+                    break;
+                }
+                Double d = Double.parseDouble(string.substring(i, nextId));
+                String s = String.valueOf(Math.round(d));
+                if (i == 0) writer.write(s);
+                else writer.write(" " + s);
+                i = nextId;
+                nextId = string.indexOf(" ", nextId + 1);
+            }
+        }
+    }
+}
