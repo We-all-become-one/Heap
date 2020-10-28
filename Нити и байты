@@ -1,0 +1,58 @@
+public class Solution {
+    public static Map<String, Integer> resultMap = new HashMap<String, Integer>();
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        while (reader.ready()) {
+            String fileName = reader.readLine();
+            if (fileName.equals("exit")) break;
+            new ReadThread(fileName);
+        }
+    }
+
+    public static class ReadThread extends Thread {
+        private String fileName;
+        public ReadThread(String fileName) {
+            this.fileName = fileName;
+            this.start();
+        }
+
+        public void run() {
+            try {
+                FileInputStream inputStream = new FileInputStream(fileName);
+                ArrayList<Integer> firstList = new ArrayList<>();
+                ArrayList<Integer> finalList = new ArrayList<>();
+                int count = 1;
+                while (inputStream.available() > 0) {
+                    int i = inputStream.read();
+                    firstList.add(i);
+                }
+                inputStream.close();
+                ArrayList<Integer> secondList = new ArrayList<>(firstList);
+                for (Integer first: firstList) {
+                    int s = 0;
+                    for (Integer second: secondList) {
+                        if (first.equals(second)) {
+                            s++;
+                        }
+                    }
+                    if (s > count) {
+                        count = s;
+                        finalList.clear();
+                    }
+                    if (!finalList.contains(first)) {
+                        if (s == count) {
+                            finalList.add(first);
+                        }
+                    }
+                }
+
+                for (Integer all: finalList) {
+                    resultMap.putIfAbsent(fileName, all);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
