@@ -1,0 +1,19 @@
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        HashMap<Character, Integer> map = new HashMap<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(args[0]))) {
+            while (reader.ready()) {
+                char i = (char) reader.read();
+                if (map.containsKey(i)) map.replace(i, map.get(i) + 1);
+                else map.put(i, 1);
+            }
+        }
+
+        for (int i = 0; i < 128; i++) {
+            for (Map.Entry<Character, Integer> pars : map.entrySet()) {
+                if (!pars.getKey().equals((char) i)) continue;
+                System.out.println(pars.getKey() + " " + pars.getValue());
+            }
+        }
+    }
+}
