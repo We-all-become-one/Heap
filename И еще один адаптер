@@ -1,0 +1,48 @@
+Требования:
+1. PersonScanner должен быть интерфейсом.
+2. Класс PersonScannerAdapter должен реализовывать интерфейс PersonScanner.
+3. Класс PersonScannerAdapter должен содержать приватное поле fileScanner типа Scanner.
+4. Класс PersonScannerAdapter должен содержать конструктор с параметром Scanner.
+5. Метод close() класса PersonScannerAdapter должен делегировать полномочие такому же методу fileScanner.
+6. Метод read() класса PersonScannerAdapter должен читать строку с файла, парсить её, и возвращать данные только одного человека, в виде объекта класса Person.
+
+public class Solution {
+
+    public static void main(String[] args) throws IOException {
+    }
+
+    public static class PersonScannerAdapter implements PersonScanner {
+        private Scanner fileScanner;
+
+        public PersonScannerAdapter(Scanner fileScanner) {
+            this.fileScanner = fileScanner;
+        }
+
+        public Person read() throws IOException {
+            HashMap<Integer, String> map = new HashMap<>();
+            String person = fileScanner.nextLine();
+            int firstId = -1;
+            int id = person.indexOf(" ");
+            for (int i = 1; !(firstId == -1 && id == -1); i++) {
+                if (id != -1) map.put(i, person.substring(firstId + 1, id));
+                else map.put(i, person.substring(firstId + 1));
+                firstId = id;
+                if (id != -1) id = person.indexOf(" ", id + 1);
+            }
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("d MM yyyy");
+            String time = map.get(4) + " " + map.get(5) + " " + map.get(6);
+            Date date = null;
+            try {
+                date = simpleDateFormat.parse(time);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            return new Person(map.get(2), map.get(3), map.get(1), date);
+        }
+
+        public void close() throws IOException {
+            fileScanner.close();
+        }
+    }
+}
