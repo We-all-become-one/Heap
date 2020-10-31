@@ -1,0 +1,26 @@
+Требования:
+1. Программа должна считывать имя файла с консоли (используй BufferedReader).
+2. BufferedReader для считывания данных с консоли должен быть закрыт.
+3. Программа должна считывать содержимое файла (используй FileReader c конструктором принимающим String).
+4. Поток чтения из файла (FileReader) должен быть закрыт.
+5. Программа должна выводить в консоль количество слов "world", которые встречаются в файле.
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        StringBuilder stringBuilder = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            FileReader fileReader = new FileReader(reader.readLine())) {
+            while (fileReader.ready()) {
+                char symbol = (char) fileReader.read();
+                stringBuilder.append(symbol);
+            }
+        }
+        Pattern pattern = Pattern.compile("\\bworld\\b");
+        Matcher matcher = pattern.matcher(stringBuilder);
+        int count = 0;
+        while (matcher.find()) {
+            count++;
+        }
+        System.out.println(count);
+    }
+}
