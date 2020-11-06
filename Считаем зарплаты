@@ -1,0 +1,23 @@
+1. Программа НЕ должна считывать данные с консоли.
+2. Программа должна считывать содержимое файла (используй FileReader).
+3. Поток чтения из файла (FileReader) должен быть закрыт.
+4. Программа должна выводить в консоль каждое имя и сумму всех его значений, все данные должны быть отсортированы в возрастающем порядке по имени.
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        try (BufferedReader reader = new BufferedReader(new FileReader(args[0]))) {
+            Map<String, Double> map = new TreeMap<>();
+            while (reader.ready()) {
+                String s = reader.readLine();
+                int blank = s.indexOf(" ");
+                String name = s.substring(0, blank);
+                double number = Double.parseDouble(s.substring(blank + 1));
+                if (map.containsKey(name)) map.replace(name, map.get(name) + number);
+                else map.putIfAbsent(name, number);
+            }
+            for (Map.Entry<String, Double> pairs : map.entrySet()) {
+                System.out.println(pairs.getKey() + " " + pairs.getValue());
+            }
+        }
+    }
+}
