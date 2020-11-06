@@ -1,0 +1,31 @@
+В метод main первым параметром приходит имя файла1, вторым - файла2.
+Файл1 содержит строки со словами, разделенными пробелом.
+Записать через пробел в Файл2 все слова, которые содержат цифры, например, а1 или abc3d.
+Закрыть потоки.
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        try (FileReader fileReader = new FileReader(args[0]);
+             BufferedReader reader = new BufferedReader(fileReader);
+             FileWriter fileWriter = new FileWriter(args[1])) {
+
+            Pattern pattern = Pattern.compile("\\D+\\d\\D*");
+
+            while (reader.ready()) {
+                String line = reader.readLine();
+                String[] lists = line.split(" ");
+                for (String list : lists) {
+                    int count = 0;
+                    Matcher matcher = pattern.matcher(list);
+                    while (matcher.find()) {
+                        count++;
+                    }
+                    if (count != 0) {
+                        fileWriter.write(list.toCharArray());
+                        fileWriter.write(" ");
+                    }
+                }
+            }
+        }
+    }
+}
