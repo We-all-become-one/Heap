@@ -1,0 +1,47 @@
+1. Программа должна считывать имя файла с консоли (используй BufferedReader).
+2. BufferedReader для считывания данных с консоли должен быть закрыт.
+3. Программа должна считывать содержимое файла (используй FileReader).
+4. Поток чтения из файла (FileReader) должен быть закрыт.
+5. Программа должна выводить в консоль все теги, которые соответствуют тегу, заданному в параметре метода main.
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+             FileReader reader1 = new FileReader(reader.readLine())) {
+            ArrayList<Integer> withOut = new ArrayList<>();
+            ArrayList<Integer> with = new ArrayList<>();
+            Pattern pattern1 = Pattern.compile("<" + args[0]);
+            Pattern pattern2 = Pattern.compile("</" + args[0] + ">");
+            StringBuilder s = new StringBuilder();
+            while (reader1.ready()) {
+                s.append(Character.toChars(reader1.read()));
+            }
+            String sb = s.toString().replaceAll("\\n|\\r\\n", "");
+            Matcher matcher1 = pattern1.matcher(sb);
+            Matcher matcher2 = pattern2.matcher(sb);
+            while (matcher1.find()) {
+                withOut.add(matcher1.start());
+            }
+            while (matcher2.find()) {
+                with.add(matcher2.end());
+            }
+            for (int i = 0; i < with.size();) {
+                ArrayList<Integer> withOutId = new ArrayList<>();
+                ArrayList<Integer> withId = new ArrayList<>();
+                int count = 0;
+                for (int j = i; j < withOut.size(); j++) {
+                    if (with.get(i) > withOut.get(j)) {
+                        withOutId.add(withOut.get(j));
+                        withId.add(0, with.get(j));
+                        count++;
+                    }
+                    else break;
+                }
+                for (int k = 0; k < withId.size(); k++) {
+                    System.out.println(sb.substring(withOutId.get(k), withId.get(k)));
+                }
+                i = i + count;
+            }
+        }
+    }
+}
