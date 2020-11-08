@@ -1,0 +1,18 @@
+ public static class Singleton implements Serializable {
+        private static Singleton ourInstance;
+
+        public static Singleton getInstance() throws ObjectStreamException {
+            if (ourInstance == null) {
+                ourInstance = new Singleton();
+            }
+            ourInstance = (Singleton) ourInstance.readResolve();
+            return ourInstance;
+        }
+
+        private Singleton() {
+        }
+
+        private Object readResolve() throws ObjectStreamException{
+            return ourInstance;
+        }
+    }
