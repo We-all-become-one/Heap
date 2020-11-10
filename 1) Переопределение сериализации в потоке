@@ -35,8 +35,7 @@ public class Solution implements Serializable, AutoCloseable {
             Solution solution = new Solution("C:\\Users\\Nora\\Desktop\\Учёба\\Примеры_для_восприятия\\1.txt");
             solution.writeObject("Первая строка");
             out.writeObject(solution);
-            Solution solution1;
-            solution1 = (Solution) in.readObject();
+            Solution solution1 = (Solution) in.readObject();
             solution.writeObject("Вторая строка");
         }
     }
