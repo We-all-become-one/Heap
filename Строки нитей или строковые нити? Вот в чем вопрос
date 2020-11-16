@@ -64,27 +64,17 @@ public class OurUncaughtExceptionHandler implements Thread.UncaughtExceptionHand
     }
 
     protected String getFormattedStringForOtherThread(Thread t, Throwable e, String string) {
-        string = string.replaceFirst("%s", e.getClass().getSimpleName());
-        string = string.replaceFirst("%s", e.getCause().toString());
-        string = string.replaceFirst("%s", t.getName());
-        return string;
+        return String.format(string, e.getClass().getSimpleName(), e.getCause().toString(), t.getName());
     }
 
     protected String getFormattedStringForSecondThread(Thread t, Throwable e, String string) {
-        string = string.replaceFirst("%s", e.getCause().toString());
-        string = string.replaceFirst("%s", e.getClass().getSimpleName());
-        string = string.replaceFirst("%s", t.getName());
-        return string;
+        return String.format(string, e.getCause().toString(), e.getClass().getSimpleName(), t.getName());
     }
 
     protected String getFormattedStringForFirstThread(Thread t, Throwable e, String string) {
-        string = string.replaceFirst("%s", t.getName());
-        string = string.replaceFirst("%s", e.getClass().getSimpleName());
-        string = string.replaceFirst("%s", e.getCause().toString());
-        return string;
+        return String.format(string, t.getName(), e.getClass().getSimpleName(), e.getCause().toString());
     }
 }
-
 ---------------------------------------------------------
 
 public class Task implements Runnable {
