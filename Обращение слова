@@ -1,0 +1,31 @@
+В методе main с консоли считать имя файла, который содержит слова, разделенные пробелами.
+Найти в тексте все пары слов, которые являются обращением друг друга. Добавить их в result.
+
+    public static void main(String[] args) throws IOException {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            BufferedReader reader1  = new BufferedReader(new FileReader(reader.readLine()))
+        ) {
+            ArrayList<String> list = new ArrayList<>();
+            while (reader1.ready()) {
+                String s = reader1.readLine();
+                String[] words = s.split(" ");
+                list.addAll(Arrays.asList(words));
+                for (int i = 0; i < list.size(); i++) {
+                    StringBuilder sb = new StringBuilder(list.get(i));
+                    sb = sb.reverse();
+                    String reverseWord = sb.toString();
+                    for (int j = i + 1; j < list.size();) {
+                        if (list.get(i).equals(list.get(j)) || reverseWord.equals(list.get(j))) {
+                            String second = list.get(j);
+                            result.add(new Pair(list.get(i), list.get(j)));
+                            list.remove(list.get(i));
+                            list.remove(second);
+                            i--;
+                            break;
+                        }
+                        j++;
+                    }
+                }
+            }
+        }
+    }
